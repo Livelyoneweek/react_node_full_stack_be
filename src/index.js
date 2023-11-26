@@ -30,6 +30,11 @@ app.post('/', (req,res) => {
     res.json(req.body);
 })
 
+app.use((error,req,res,next) => {
+    res.status(err.status || 500);
+    res.send(error.message || '서버 에러 발생');
+}) 
+
 console.log(path.join(__dirname, '../uploads'));
 app.use(express.static(path.join(__dirname, '../uploads')));
 
