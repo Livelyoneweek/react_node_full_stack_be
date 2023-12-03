@@ -26,6 +26,7 @@ app.get('/', (req,res) => {
 
 // router
 app.use('/users',require('./routes/users'));
+app.use('/products',require('./routes/products'));
 
 
 app.use((error,req,res,next) => {

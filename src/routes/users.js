@@ -13,6 +13,8 @@ router.get('/auth', auth ,async (req,res,next) => {
         name: req.user.name,
         role: req.user.role,
         image: req.user.image,
+        cart: req.user.cart,
+        histroy: req.user.history
     })
 })
 
@@ -47,7 +49,7 @@ router.post('/login', async (req,res,next) => {
 
         //token 생성
         const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: '1h'})
-
+        // console.log("user=",user)
         return res.json({user:user, accessToken:accessToken})
     } catch(error) {
         next(error);

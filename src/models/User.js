@@ -2,7 +2,7 @@ const { default: mongoose } = require("mongoose");
 const bcrypt = require('bcryptjs');
 
 
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
     name: {
         type:String,
         maxLength:50
@@ -20,7 +20,16 @@ const userSchema = mongoose.Schema({
         type:Number,
         default: 0,
     },
-    image : String
+    image : String,
+
+    cart: {
+        type:Array,
+        dafault:[]
+    },
+    histroy: {
+        type:Array,
+        dafault:[]
+    }
 })
 
 userSchema.pre('save', async function(next) {
@@ -37,7 +46,7 @@ userSchema.pre('save', async function(next) {
 
 userSchema.methods.comparePassword = async function(plainPassword) {
     let user = this;
-    console.log(user);
+    // console.log(user);
     const match = await bcrypt.compare(plainPassword, user.password);
     return match;
 }
