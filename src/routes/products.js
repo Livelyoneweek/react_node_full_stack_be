@@ -30,6 +30,14 @@ router.get('/:id', async(req,res,next) => {
 
     const type = req.query.type;
     let productIds = req.params.id;
+
+    if(type === 'array') {
+        let ids = productIds.split(',');
+        productIds = ids.map(item => {
+            return item
+        })
+    }
+
     // productId 를 이용해서 DB에서 productId와 같은 상품의 정보를 가져옴
     try {
         const product = await Product
@@ -71,7 +79,7 @@ router.get('/' ,async (req,res,next) => {
         findArgs["$text"] = {$search: term};
     }
 
-    console.log(findArgs)
+    console.log("findArgs:",findArgs)
 
     try {
         const products = await Product.find(findArgs)
