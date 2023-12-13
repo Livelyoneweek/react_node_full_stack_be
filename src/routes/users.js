@@ -3,6 +3,7 @@ const User = require('../models/User');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { auth } = require('../middleware/auth');
+const Product = require('../models/Product');
 
 
 router.get('/auth', auth ,async (req,res,next) => {
@@ -109,6 +110,37 @@ router.post('/cart', auth, async (req, res, next) => {
         }
 
 
+    } catch (error) {
+        next(error)
+    }
+})
+
+router.delete('/cart', auth, async (req,res, next) => {
+    try {
+        //먼저 카트안에 지우려는 상품 지우기
+        const userInfo = await User.findOneAndUpdate(
+            {_id: req.user._id},
+            {
+                "$pull":{"cart":{"id": req.query.productId}}
+            },
+            {new:true}
+        )
+
+        const cart = userInfo.cart;
+        const array = cart.map(item => {
+            return item.id
+        })
+
+        // product list 가져오기
+        const productInfo = await Product
+            .find({_id: {$in: array}})
+            .populate('writer')
+        
+        return res.json({
+            productInfo,
+            cart
+        })
+        
     } catch (error) {
         next(error)
     }
