@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
         type:Array,
         dafault:[]
     },
-    histroy: {
+    history: {
         type:Array,
         dafault:[]
     }
