@@ -17,7 +17,7 @@ router.get('/auth', auth ,async (req,res,next) => {
         role: req.user.role,
         image: req.user.image,
         cart: req.user.cart,
-        histroy: req.user.history
+        history: req.user.history
     })
 })
 
